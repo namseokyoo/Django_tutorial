@@ -1,0 +1,22 @@
+<!--헤드 메시지 -->
+<h1>{{ question.question_text }}</h1>
+
+<!-- 에러 처리(question 없는경우) -->
+{% if error_message %}<p></p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+<!-- vote 눌렀을때 post 로 보내기 -->
+<form action="{% url 'vote' question.id %}" method="post">
+
+
+{% csrf_token %}
+
+<!-- choice 불러오기 -->
+{% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+{% endfor %}
+
+<!-- 보내기(vote 버튼) -->
+<input type="submit" value="Vote">
+</form>
